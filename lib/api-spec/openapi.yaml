@@ -1,0 +1,268 @@
+openapi: 3.1.0
+info:
+  title: Api
+  version: 0.1.0
+  description: API specification
+servers:
+  - url: /api
+tags:
+  - name: health
+  - name: dashboard
+  - name: students
+  - name: faculty
+  - name: subjects
+  - name: timetable
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/HealthStatus" }
+  /dashboard/summary:
+    get:
+      operationId: getDashboardSummary
+      tags: [dashboard]
+      responses:
+        "200":
+          description: Scheduling summary
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/DashboardSummary" }
+  /students:
+    get:
+      operationId: listStudents
+      tags: [students]
+      responses:
+        "200":
+          description: Student records
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Student" }
+    post:
+      operationId: createStudent
+      tags: [students]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/StudentInput" }
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Student" }
+  /students/{id}:
+    parameters: [{ $ref: "#/components/parameters/Id" }]
+    get:
+      operationId: getStudent
+      tags: [students]
+      responses:
+        "200":
+          description: Student
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Student" }
+    patch:
+      operationId: updateStudent
+      tags: [students]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/StudentUpdate" }
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Student" }
+    delete:
+      operationId: deleteStudent
+      tags: [students]
+      responses: { "204": { description: Deleted } }
+  /faculty:
+    get:
+      operationId: listFaculty
+      tags: [faculty]
+      responses:
+        "200":
+          description: Faculty records
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Faculty" }
+    post:
+      operationId: createFaculty
+      tags: [faculty]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/FacultyInput" }
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Faculty" }
+  /subjects:
+    get:
+      operationId: listSubjects
+      tags: [subjects]
+      responses:
+        "200":
+          description: Subject records
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Subject" }
+    post:
+      operationId: createSubject
+      tags: [subjects]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/SubjectInput" }
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Subject" }
+  /timetable:
+    get:
+      operationId: getTimetable
+      tags: [timetable]
+      responses:
+        "200":
+          description: Timetable entries
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/TimetableEntry" }
+  /timetable/conflicts:
+    get:
+      operationId: getTimetableConflicts
+      tags: [timetable]
+      responses:
+        "200":
+          description: Scheduling conflicts
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Conflict" }
+components:
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      schema: { type: integer }
+  schemas:
+    HealthStatus:
+      type: object
+      properties: { status: { type: string } }
+      required: [status]
+    Student:
+      type: object
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        division: { type: string }
+        rollNo: { type: integer }
+        prn: { type: ["string", "null"] }
+        registeredSubject: { type: string }
+      required: [id, name, division, rollNo, prn, registeredSubject]
+    StudentInput:
+      type: object
+      properties:
+        name: { type: string, minLength: 1 }
+        division: { type: string, minLength: 1 }
+        rollNo: { type: integer, minimum: 1 }
+        prn: { type: ["string", "null"] }
+        registeredSubject: { type: string, minLength: 1 }
+      required: [name, division, rollNo, registeredSubject]
+    StudentUpdate:
+      allOf: [{ $ref: "#/components/schemas/StudentInput" }]
+    Faculty:
+      type: object
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        email: { type: ["string", "null"] }
+        department: { type: ["string", "null"] }
+        maxWeeklyHours: { type: integer }
+      required: [id, name, email, department, maxWeeklyHours]
+    FacultyInput:
+      type: object
+      properties:
+        name: { type: string, minLength: 1 }
+        email: { type: ["string", "null"] }
+        department: { type: ["string", "null"] }
+        maxWeeklyHours: { type: integer, minimum: 1 }
+      required: [name]
+    Subject:
+      type: object
+      properties:
+        id: { type: integer }
+        code: { type: string }
+        name: { type: string }
+        type: { type: ["string", "null"] }
+        weeklyHours: { type: integer }
+      required: [id, code, name, type, weeklyHours]
+    SubjectInput:
+      type: object
+      properties:
+        code: { type: string, minLength: 1 }
+        name: { type: string, minLength: 1 }
+        type: { type: ["string", "null"] }
+        weeklyHours: { type: integer, minimum: 1 }
+      required: [code, name]
+    DashboardSummary:
+      type: object
+      properties:
+        students: { type: integer }
+        faculty: { type: integer }
+        subjects: { type: integer }
+        scheduledClasses: { type: integer }
+        conflicts: { type: integer }
+        facultyUtilization: { type: integer }
+        nextGeneration: { type: ["string", "null"] }
+      required: [students, faculty, subjects, scheduledClasses, conflicts, facultyUtilization, nextGeneration]
+    TimetableEntry:
+      type: object
+      properties:
+        id: { type: integer }
+        day: { type: string }
+        time: { type: string }
+        subject: { type: string }
+        faculty: { type: string }
+        room: { type: string }
+        division: { type: string }
+        status: { type: string }
+        classType: { type: string }
+        batch: { type: [string, "null"] }
+        batchSize: { type: [integer, "null"] }
+      required: [id, day, time, subject, faculty, room, division, status]
+    Conflict:
+      type: object
+      properties:
+        id: { type: integer }
+        severity: { type: string }
+        title: { type: string }
+        detail: { type: string }
+        category: { type: string }
+      required: [id, severity, title, detail, category]

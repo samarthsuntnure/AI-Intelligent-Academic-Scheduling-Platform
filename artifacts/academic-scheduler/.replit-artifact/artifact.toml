@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "AI Academic Scheduling Platform"
+description = "An intelligent college scheduling platform for managing students, faculty, subjects, rooms, constraints, and optimized timetables with conflict visibility."
+version = "1.0.0"
+id = "artifacts/academic-scheduler"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25043
+
+[services.development]
+run = "pnpm --filter @workspace/academic-scheduler run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/academic-scheduler", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/academic-scheduler/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25043"
+BASE_PATH = "/"

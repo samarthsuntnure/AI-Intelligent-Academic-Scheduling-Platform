@@ -1,0 +1,7 @@
+teacher_id,teacher_name,department,subject,max_hours_per_week,preferred_days,preferred_time_slots,unavailable_days,unavailable_slots
+T001,Dr. Asha Patil,CSE,Data Structures,12,Monday|Tuesday,08:00-12:00,,14:00-15:00
+T002,Prof. Rahul Deshmukh,CSE,Database Systems,12,Monday|Wednesday,10:00-18:00,,12:00-14:00
+T003,Dr. Neha Kulkarni,AIML,Machine Learning,12,Tuesday|Thursday,09:00-18:00,Friday,
+T004,Prof. Amit Joshi,AIML,Computer Networks,12,Monday|Thursday,08:00-18:00,Wednesday,
+T005,Prof. Priya Shah,CSE,Python Programming,10,Tuesday|Wednesday,08:00-16:00,Friday,
+T006,Prof. Sameer Kale,CSE,Data Structures,10,Wednesday|Thursday,08:00-18:00,Monday,

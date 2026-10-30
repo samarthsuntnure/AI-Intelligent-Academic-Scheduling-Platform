@@ -1,0 +1,26 @@
+{
+  "name": "workspace",
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {
+    "preinstall": "node tools/preinstall.mjs",
+    "build": "pnpm run typecheck && pnpm -r --if-present run build",
+    "typecheck:libs": "tsc --build",
+    "typecheck": "pnpm run typecheck:libs && pnpm -r --filter @workspace/academic-scheduler --filter @workspace/api-server --filter @workspace/scripts --if-present run typecheck",
+    "db:push": "pnpm --filter @workspace/db run push",
+    "db:push-force": "pnpm --filter @workspace/db run push-force",
+    "import-csv": "pnpm --filter @workspace/scripts run import-csv",
+    "dev": "concurrently -n api,web -c blue,green \"pnpm run dev:api\" \"pnpm run dev:web\"",
+    "dev:api": "pnpm --filter @workspace/api-server run dev",
+    "dev:web": "pnpm --filter @workspace/academic-scheduler run dev"
+  },
+  "private": true,
+  "dependencies": {
+    "@replit/connectors-sdk": "^0.4.1"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "prettier": "^3.9.6",
+    "typescript": "~5.9.3"
+  }
+}

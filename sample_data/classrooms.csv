@@ -1,0 +1,6 @@
+classroom_id,room_number,building,floor,room_type,capacity,department,available_days,available_slots,has_projector,has_computer,has_lab,lab_type
+R001,101,Main,1,lecture,50,CSE,Monday|Tuesday|Wednesday|Thursday|Friday,08:00-12:00|14:00-18:00,1,1,0,
+R002,102,Main,1,lecture,50,CSE,Monday|Tuesday|Wednesday|Thursday|Friday,08:00-12:00|14:00-18:00,1,1,0,
+R003,201,AI Block,2,lecture,40,AIML,Monday|Tuesday|Wednesday|Thursday|Friday,08:00-12:00|14:00-18:00,1,1,0,
+R004,LAB1,AI Block,2,lab,25,AIML,Monday|Tuesday|Wednesday|Thursday|Friday,08:00-12:00|14:00-18:00,1,1,1,computer
+R005,LAB2,AI Block,2,lab,25,AIML,Monday|Tuesday|Wednesday|Thursday|Friday,08:00-12:00|14:00-18:00,1,1,1,computer

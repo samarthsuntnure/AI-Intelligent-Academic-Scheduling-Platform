@@ -1,0 +1,11 @@
+{
+  "working_days": [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday"
+  ],
+  "hours_per_day": 5,
+  "division_settings": {}
+}
